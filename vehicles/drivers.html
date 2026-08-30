@@ -1,457 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HVAC Drivers Roll</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Drivers Page Moved</title>
     <style>
         :root {
-            --border-color: #ddd;
-            --header-bg: #f8f9fa;
-            --hover-bg: #f1f3f5;
-            --accent-color: #0056b3;
+            color-scheme: light;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* Ensure padding doesn't affect the width of elements */
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
-        html { scroll-behavior: smooth; }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.5;
-            background-color: #f4f7f6;
-            color: #333;
+            display: grid;
+            min-height: 100vh;
+            min-height: 100svh;
+            margin: 0;
+            padding: 1.5rem;
+            place-items: center;
+            color: #212529;
+            background: #f1f3f5;
         }
 
-        /* Navigation and Content Boxes now share identical sizing and margins */
-        .index-nav, .box {
-            max-width: 900px;
-            margin: 0 auto 25px auto;
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        main {
+            width: min(100%, 32rem);
+            padding: 2.5rem;
+            text-align: center;
+            background: #dee2e6;
+            border: 1px solid #adb5bd;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 18%);
         }
 
-        .index-nav {
-            padding: 15px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
+        h1 {
+            margin: 0 0 1rem;
+            font-size: clamp(1.75rem, 5vw, 2.25rem);
         }
 
-        .nav-links {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
+        p {
+            margin: 0 0 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
-        .index-nav b { font-size: 0.9rem; color: #666; text-transform: uppercase; }
-        
-        .index-nav a {
+        a {
+            display: inline-block;
+            padding: 0.75rem 1.25rem;
+            color: #fff;
+            font-weight: 700;
             text-decoration: none;
-            color: var(--accent-color);
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 5px 10px;
-            border-radius: 4px;
-            background-color: #f0f4f8;
-            transition: all 0.2s;
+            background: #495057;
+            border-radius: 0.4rem;
         }
 
-        .index-nav a:hover { background-color: var(--accent-color); color: white; }
-
-        /* Search Bar Wrapper */
-        .search-wrapper {
-            position: relative;
-            flex-grow: 1;
-            min-width: 250px;
-            max-width: 350px;
-            display: flex;
-            align-items: center;
+        a:hover,
+        a:focus-visible {
+            background: #343a40;
         }
 
-        #memberSearch {
-            width: 100%;
-            padding: 8px 35px 8px 15px;
-            border: 2px solid #eee;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        #memberSearch:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.1);
-        }
-
-        /* CORRECTED "X" vertical alignment */
-        #clearSearch {
-            position: absolute;
-            right: 12px;
-            cursor: pointer;
-            color: #ccc;
-            font-size: 1.4rem;
-            font-weight: 300;
-            display: none;
-            line-height: 1;
-            user-select: none;
-            top: 50%;
-            transform: translateY(-55%); /* Centers perfectly vertically */
-        }
-
-        #clearSearch:hover { color: #888; }
-
-        .box {
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .box.hidden { display: none; }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.25rem;
-            color: #2c3e50;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .back-to-top {
-            font-size: 0.75rem;
-            text-decoration: none;
-            color: #999;
-            background: #f8f9fa;
-            padding: 4px 8px;
-            border-radius: 4px;
-            border: 1px solid #eee;
-            font-weight: normal;
-            transition: all 0.2s;
-        }
-        .back-to-top:hover {
-            background: #eee;
-            color: var(--accent-color);
-        }
-
-        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-        th {
-            cursor: pointer;
-            background-color: var(--header-bg);
-            border: 1px solid var(--border-color);
-            padding: 12px 10px;
-            text-align: left;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        th:hover { background-color: #eceef0; }
-        td { border: 1px solid var(--border-color); padding: 10px; vertical-align: middle; }
-        tr:hover td { background-color: var(--hover-bg); }
-        
-        .col-last { width: 25%; }
-        .col-first { width: 30%; }
-
-        .th-wrap { display: flex; align-items: center; justify-content: space-between; }
-        .arrow { font-size: 0.8em; margin-left: 8px; color: #bbb; }
-        th.asc .arrow::before { content: "▲"; color: #333; }
-        th.desc .arrow::before { content: "▼"; color: #333; }
-        th:not(.asc):not(.desc) .arrow::before { content: "↕"; opacity: 0.5; }
-
-        @media (max-width: 600px) {
-            body { margin: 10px; }
-            .index-nav { flex-direction: column; align-items: stretch; }
-            .search-wrapper { max-width: 100%; }
-            .box { padding: 12px; }
-            th, td { padding: 8px 5px; font-size: 0.82em; }
+        a:focus-visible {
+            outline: 3px solid #0d6efd;
+            outline-offset: 3px;
         }
     </style>
 </head>
 <body>
-
-    <nav class="index-nav" id="top-nav">
-        <div class="nav-links">
-            <b>Jump to:</b>
-            <a href="#trainees">Trainees</a>
-            <a href="#cleared">Cleared Drivers</a>
-            <a href="#ftos">Driving Field Training Officers (FTOs)</a>
-        </div>
-        <div class="search-wrapper">
-            <input type="text" id="memberSearch" placeholder="Type to search..." autocomplete="off">
-            <span id="clearSearch" title="Clear search">&times;</span>
-        </div>
-    </nav>
-
-    <div class="box" id="trainees">
-        <h2>
-            Drivers in Training
-            <a href="#top-nav" class="back-to-top">Top ↑</a>
-        </h2>
-        <table id="table-trainees">
-            <thead>
-                <tr>
-                    <th class="col-last" onclick="sortTable(this, 0)"><div class="th-wrap">Last Name<span class="arrow"></span></div></th>
-                    <th class="col-first" onclick="sortTable(this, 1)"><div class="th-wrap">Given Names<span class="arrow"></span></div></th>
-                    <th class="col-cool" onclick="sortTable(this, 2)"><div class="th-wrap">Status<span class="arrow"></span></div></th>
-                    <th class="col-date" onclick="sortTable(this, 3)"><div class="th-wrap">Date Added<span class="arrow"></span></div></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-
-    <div class="box" id="ftos">
-        <h2>
-            Driving Field Training Officers (FTOs)
-            <a href="#top-nav" class="back-to-top">Top ↑</a>
-        </h2>
-        <table id="table-ftos">
-            <thead>
-                <tr>
-                    <th class="col-last" onclick="sortTable(this, 0)"><div class="th-wrap">Last Name<span class="arrow"></span></div></th>
-                    <th class="col-first" onclick="sortTable(this, 1)"><div class="th-wrap">Given Names<span class="arrow"></span></div></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-
-    <div class="box" id="cleared">
-        <h2>
-            Cleared Drivers
-            <a href="#top-nav" class="back-to-top">Top ↑</a>
-        </h2>
-        <table id="table-cleared">
-            <thead>
-                <tr>
-                    <th class="col-last" onclick="sortTable(this, 0)"><div class="th-wrap">Last Name<span class="arrow"></span></div></th>
-                    <th class="col-first" onclick="sortTable(this, 1)"><div class="th-wrap">Given Names<span class="arrow"></span></div></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-
-    <script>
-        const dataTrainees = `
-            Abdul ; Abid; EMT-P; 2026.03.27
-            George ; Adamson; CCiT ; 2026.07.16
-            Trang ; Dao ; Obs. ; 2026.02.01
-            Joyce ; Estafanous ; EMT ; 2026.01.12
-            Neel ; Gandhi ; CCiT ; 2026.01.11
-            Carlos ; Julaj ; Obs. ; 2026.02.19
-            Isaiah ; Liu ; EMT ; 2025.02.24
-            Hanna ; Matheson ; EMT ; 2026.07.20
-            Joshua ; Meharg; Obs. ; 2026.08.01
-            Vrinda ; Modi ; EMT ; 2024.12.14
-            Emily ; Moreno ; Obs. ; 2025.10.20
-            Nikhil ; Patel ; EMT ; 2026.03.09
-            Melanie ; Perez ; Obs. ; 2025.12.29
-            Guelmilean ; Santiago ; Obs. ; 2026.02.01
-            Raj ; Shah ; EMT; 2026.01.11
-            Gabriela ; Zaro ; CCiT ; 2026.01.05
-            Joyce ; Zhu ; EMT ; 2026.03.22
-        `;
-
-        const dataFTOs = `
-            Phillip ; Alexander
-            Lauren ; Alley
-            Walter ; Bell
-            Jason ; Carretero-Ramos
-            Segundo ; Carvache
-            Anthony ; Cunningham
-            Alan ; Decowski
-            Joseph ; Demateis
-            Dawan ; Fulton
-            Nevan ; Gandhi
-            Tyler ; Harris
-            Kaizad ; Jehangir
-            Alexander ; Kaufman
-            Chaim ; Lebovits
-            Eric ; Mendoza
-            Angel ; Molina
-            Christopher ; Monrroy
-            Michael ; Oestreich
-            Renee ; Parriott
-            Rishabh ; Raj
-            Lydia ; Sung
-            Yuriy ; Rusko
-            Sandy ; Shaw
-            Maya ; Slim
-            Brandon ; Vasquez
-            Herman ; Weintraub
-            Sarah ; Wiessler
-            Joseph ; Zelasko
-        `;
-
-        const dataCleared = `
-            Abdullah ; Abubakar
-            Daniel ; Adames
-            Prince ; Ahmed
-            Sohaib ; Akl
-            Bachar ; Alkasem
-            Justin ; Bambico
-            Zachary ; Beja
-            Abraham ; Berger
-            Nycholas ; Bravo
-            Jaddeliz ; Carrada-Lopez
-            Miquel ; Campos
-            Catherine ; Cardenas
-            Clea ; Chelala
-            Alexander ; Covan
-            Emily ; Delgado
-            Sofia ; Devito
-            Jeaninne ; Franco
-            Alejandro ; Garcia
-            Franzine ; Garcia
-            Vivien ; Garcia
-            Daniel ; Gear
-            Chaimae ; Gouya
-            Rosemary ; Hawkins
-            Nariya ; Henderson
-            Sophia ; Higgins
-            Christopher ; Hoffman
-            Nathan ; Jaroslawitz
-            Hamza ; Javed
-            Hershy ; Katz;
-            Mithul ; Kesavan
-            Tara ; Khosla
-            Jack ; Kostelnik
-            Harichandana ; Kothamasu
-            Joseph ; Letizia
-            Edwin ; Luna-Gonzalez
-            Cindy ; Maldonado
-            John ; Mercun
-            Anastasia ; Merisier
-            Thomas ; Molta
-            Azza ; Moustafa
-            Nicolas ; Nuila
-            Adam ; Okun
-            Angie ; Ortega
-            Lia ; Pesiri
-            Ariadne ; Romero
-            Shrey ; Shah
-            Subbiah ; Shenbagaraman
-            Kimberly ; Souza
-            Ann ; Shulkin
-            Syheed ; Smith
-            Tianna ; Spitz
-            Abraham ; Spitzer
-            Maya ; Sternberg
-            Naydaijah ; Tejeda
-            Kelly; Vaughan
-            Scott ; Whalen
-            Nicole ; Yang
-        `;
-
-        function buildTable(tableId, rawData) {
-            const tbody = document.querySelector(`#${tableId} tbody`);
-            const rows = rawData.trim().split('\n');
-            
-            rows.forEach(rowText => {
-                const columns = rowText.split(';').map(col => col.trim());
-                if (columns.length < 2) return;
-
-                const firstName = columns[0];
-                const lastName = columns[1];
-                const tr = document.createElement('tr');
-
-                const tdLast = document.createElement('td');
-                tdLast.textContent = lastName;
-                tdLast.className = 'col-last';
-                tr.appendChild(tdLast);
-
-                const tdFirst = document.createElement('td');
-                tdFirst.textContent = firstName;
-                tdFirst.className = 'col-first';
-                tr.appendChild(tdFirst);
-
-                for (let i = 2; i < columns.length; i++) {
-                    const tdExtra = document.createElement('td');
-                    tdExtra.textContent = columns[i];
-                    tr.appendChild(tdExtra);
-                }
-                tbody.appendChild(tr);
-            });
-        }
-
-        function sortTable(header, colIndex) {
-            const table = header.closest("table");
-            const tbody = table.querySelector("tbody");
-            const rows = Array.from(tbody.rows);
-            const isAsc = header.classList.contains("asc");
-            
-            rows.sort((a, b) => {
-                let cellA = a.cells[colIndex].innerText.toLowerCase();
-                let cellB = b.cells[colIndex].innerText.toLowerCase();
-                return isAsc ? cellB.localeCompare(cellA) : cellA.localeCompare(cellB);
-            });
-
-            tbody.append(...rows);
-            table.querySelectorAll("th").forEach(th => th.classList.remove("asc", "desc"));
-            header.classList.toggle("asc", !isAsc);
-            header.classList.toggle("desc", isAsc);
-        }
-
-        function initSearch() {
-            const searchInput = document.getElementById('memberSearch');
-            const clearBtn = document.getElementById('clearSearch');
-            
-            searchInput.addEventListener('input', function() {
-                const term = this.value.toLowerCase().trim();
-                const boxes = document.querySelectorAll('.box');
-
-                clearBtn.style.display = (this.value.length > 0) ? "block" : "none";
-
-                boxes.forEach(box => {
-                    const rows = box.querySelectorAll('tbody tr');
-                    let matchesInBox = 0;
-
-                    rows.forEach(row => {
-                        const content = row.textContent.toLowerCase();
-                        if (content.includes(term)) {
-                            row.style.display = "";
-                            matchesInBox++;
-                        } else {
-                            row.style.display = "none";
-                        }
-                    });
-
-                    if (matchesInBox === 0 && term !== "") {
-                        box.classList.add('hidden');
-                    } else {
-                        box.classList.remove('hidden');
-                    }
-                });
-            });
-
-            clearBtn.addEventListener('click', function() {
-                searchInput.value = "";
-                searchInput.dispatchEvent(new Event('input'));
-                searchInput.focus();
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            buildTable('table-trainees', dataTrainees);
-            buildTable('table-ftos', dataFTOs);
-            buildTable('table-cleared', dataCleared);
-
-            document.querySelectorAll("table").forEach(table => {
-                const defaultHeader = table.querySelector("th:nth-child(1)");
-                if (defaultHeader) sortTable(defaultHeader, 0);
-            });
-
-            initSearch();
-        });
-    </script>
+    <main>
+        <h1>This page has moved</h1>
+        <p>The Drivers page can now be found on 134 On Scene.</p>
+        <a href="https://134onscene.com/drivers/">Go to the Drivers page</a>
+    </main>
 </body>
 </html>
